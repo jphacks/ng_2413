@@ -15,13 +15,9 @@ df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
 df = df.fillna(0)
 
 # ユーザーの1日あたりの目標摂取量
-target_kcal = 2000
-target_protein = 150
-target_fat = 60
-target_carbo = 250
 
 # 栄養バランスを計算する関数
-def calculate_score(selected):
+def calculate_score(selected,target_kcal,target_protein,target_fat,target_carbo):
     total_kcal = selected["kcal"].sum()
     total_protein = selected["protein"].sum()
     total_fat = selected["fat"].sum()
