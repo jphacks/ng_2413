@@ -24,6 +24,20 @@ def calculate_calorie_needs(tdee, goal='muscle_gain', surplus=300):
         return tdee - surplus
     else:
         return tdee
+    
+    # 筋肉増加に必要なタンパク質
+def calculate_protein_needs(weight):
+    protein = 2.0 * weight
+    return protein
+
+def calculate_fat_needs(tdee,goal):
+    fat = calculate_calorie_needs(tdee,goal) * 25/100
+    return fat
+
+def calculate_carbon_needs(tdee,goal,weight):
+    carbon = calculate_calorie_needs(tdee,goal)-calculate_protein_needs(weight)*4-calculate_fat_needs(tdee,goal)
+    return carbon
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -41,8 +55,14 @@ def index():
         tdee = calculate_tdee(bmr, activity_level)
         # 筋肉増加に必要なカロリーの計算
         calorie_needs = calculate_calorie_needs(tdee, goal)
+        # 筋肉増加に必要なタンパク質の計算
+        protein_needs = calculate_protein_needs(weight)
+        # 筋肉増加に必要な脂質の計算
+        fat_needs = calculate_fat_needs(tdee,goal)
+        # 筋肉増加に必要な炭水化物の計算
+        carbon_needs = calculate_carbon_needs(tdee,goal,weight)
 
-        return render_template('result.html', bmr=bmr, tdee=tdee, calorie_needs=calorie_needs)
+        return render_template('result.html', bmr=bmr, tdee=tdee, calorie_needs=calorie_needs,protein_needs=protein_needs,fat_needs=fat_needs,carbon_needs=carbon_needs)
 
     return render_template('index.html')
 
