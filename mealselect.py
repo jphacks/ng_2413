@@ -107,7 +107,7 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 target_kcal = 2000
 target_protein = 100
 target_fat = 55
-target_carbo = 100
+target_carbo = 270
 
 # 最適な献立を生成
 optimal_plan = generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo)
