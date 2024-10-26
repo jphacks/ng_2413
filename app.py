@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from config import Config
-from ng_2413.mealselect import app_mealselect
+from mealselect import app_mealselect
 
 
 

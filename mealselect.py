@@ -187,7 +187,7 @@ def recipe_dinner():
     return render_template('dinner.html', meal_plan=dinner_plan)
 
 
-@app_mealselect.route('/form/recipe/summary', methods=['GET'])
+@app_mealselect.route('/form/recipe/nutrition', methods=['GET'])
 def recipe_summary():
     # UTF-8エンコーディングで読み込む
     data_path = "./database/caloriecalculate.csv"
