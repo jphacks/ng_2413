@@ -3,12 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from config import Config
-#from ng_2413.mealselect import app_mealselect
+from ng_2413.mealselect import app_mealselect
 
 
 
 app = Flask(__name__)
-#app.register_blueprint(app_mealselect)
+app.register_blueprint(app_mealselect)
 
 app.config.from_object(Config)
 db = SQLAlchemy(app)

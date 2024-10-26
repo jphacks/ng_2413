@@ -112,11 +112,6 @@ def recipe_list():
     # UTF-8エンコーディングで読み込む
     data_path = "./database/caloriecalculate.csv"
     df = pd.read_csv(data_path, encoding='utf-8')
-    # ユーザーの1日あたりの目標摂取量
-    target_kcal = 2000
-    target_protein = 100
-    target_fat = 55
-    target_carbo = 270
 
     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     menu_list = optimal_plan
