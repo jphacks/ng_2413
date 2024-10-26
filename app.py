@@ -1,13 +1,13 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, g, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from config import Config
 from mealselect import app_mealselect
 
-
-
 app = Flask(__name__)
+
+app.secret_key = 'your_secret_key' 
 app.register_blueprint(app_mealselect)
 
 app.config.from_object(Config)
@@ -16,12 +16,10 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # ログインしていない場合にリダイレクトするページ
 
-carbon_needs=None
-fat_needs=None
-protein_needs=None
-calorie_needs=None
-
-
+# calorie_needs = None
+# protein_needs = None
+# fat_needs = None
+# carbon_needs = None
 # データ ベースモデルのインポート
 from models import User
 
@@ -81,26 +79,25 @@ def index():
         # TDEEの計算
         tdee = calculate_tdee(bmr, activity_level)
         # 筋肉増加に必要な1日のカロリーの計算
-        global calorie_needs
-        calorie_needs = calculate_calorie_needs(tdee, goal)
-        # 筋肉増加に必要なタンパク質の計算
-        global protein_needs
-        protein_needs = calculate_protein_needs(weight)
-        # 筋肉増加に必要な脂質の計算
-        global fat_needs
-        fat_needs = calculate_fat_needs(tdee,goal)
-        # 筋肉増加に必要な炭水化物の計算
-        global carbon_needs
-        carbon_needs = calculate_carbon_needs(tdee,goal,weight)
+        # セッションに必要な値を保存
+        session['calorie_needs'] = calculate_calorie_needs(tdee, goal)
+        session['protein_needs'] = calculate_protein_needs(weight)
+        session['fat_needs'] = calculate_fat_needs(tdee, goal)
+        session['carbon_needs'] = calculate_carbon_needs(tdee, goal, weight)
+
+        # g.calorie_needs = calculate_calorie_needs(tdee, goal)
+        # g.protein_needs = calculate_protein_needs(weight)
+        # g.fat_needs = calculate_fat_needs(tdee, goal)
+        # g.carbon_needs = calculate_carbon_needs(tdee, goal, weight)
 
         # 結果をJSONで返す
         return jsonify({
             'bmr': bmr,
             'tdee': tdee,
-            'calorie_needs': calorie_needs,
-            'protein_needs': protein_needs,
-            'fat_needs': fat_needs,
-            'carbon_needs': carbon_needs
+            'calorie_needs': session['calorie_needs'],
+            'protein_needs': session['protein_needs'],
+            'fat_needs': session['fat_needs'],
+            'carbon_needs': session['carbon_needs']
         })
     return render_template('index.html')
 

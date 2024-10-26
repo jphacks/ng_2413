@@ -1,7 +1,6 @@
 import pandas as pd
 import itertools
-
-from flask import Flask, render_template, request, jsonify, Blueprint
+from flask import Blueprint, render_template, g, request, Flask, jsonify, session
 
 app_mealselect = Blueprint('app_mealselect', __name__)
 
@@ -112,7 +111,6 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 
 @app_mealselect.route('/form/recipe', methods=['GET'])
 def recipe_list():
-    from app import protein_needs, fat_needs, carbon_needs, calorie_needs
     # UTF-8エンコーディングで読み込む
     global optimal_plan
     if optimal_plan is None:
@@ -120,7 +118,12 @@ def recipe_list():
         data_path = "./database/caloriecalculate.csv"
         df = pd.read_csv(data_path, encoding='utf-8')
 
-        optimal_plan = generate_meal_plan(df, int(calorie_needs), int(protein_needs), int(fat_needs), int(carbon_needs))
+        optimal_plan = generate_meal_plan(df, session.get('calorie_needs', None),
+            session.get('protein_needs', None),
+            session.get('fat_needs', None),
+            session.get('carbon_needs', None))
+        
+        print(session.get('calorie_needs', None))
     
     # メニュー一覧をHTMLで表示
     return render_template('recipe.html', menus=optimal_plan)
