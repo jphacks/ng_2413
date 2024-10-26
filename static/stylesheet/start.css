@@ -1,54 +1,49 @@
+html,
 body {
-    background-image: url('/static/images/筋肉食事.png'); /* 背景画像のパス */ 
-    background-size: cover; /* 画像をページ全体に広げる */ 
-    background-position: center; /* 画像の位置を中央に設定 */ 
-    background-repeat: no-repeat; /* 画像の繰り返しを防ぐ */ 
-    display: flex; /* Flexboxで中央配置 */ 
-    justify-content: center; /* 水平方向に中央揃え */ 
-    align-items: center; /* 垂直方向に中央揃え */ 
-    height: 100vh; /* ビューポートの高さを全体に合わせる */ 
-    margin: 0; /* 余白をなくす */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: black;
 }
 
-/* コンテナスタイル */
-.container {
-    text-align: center; /* テキストを中央に揃える */
+.container-fluid {
     width: 100%;
-    max-width: 800px; /* コンテナの最大幅を指定 */
-    margin: 0 auto;
+    height: 100%;
+    padding: 0;
 }
 
-/* h1のスタイル */
-h1 {
-    font-size: 4em;
-    color: #333;
-    margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* 白い背景色を追加 */
-    padding: 20px; /* 文字と背景の間に余白を追加 */
-    border-radius: 10px; /* 角を丸くする */
-    display: inline-block; /* テキストブロックを中央に */
-    text-align: center; /* テキスト自体も中央揃え */
+/* コンテンツを中央に表示 */
+.content-container {
+    z-index: 10;
+}
+
+/* 画像を背景に設定 */
+.image-container {
+    background-image: url("../images/muscle.jpg");
+    /* 画像のパスを指定 */
+    background-size: auto;
+    /* 画像をコンテナにフィットさせる */
+    background-position: right;
+    background-repeat: no-repeat;
+    width: 0;
+    /* 最初は表示されない */
+    height: 100vh;
+    transition: width 0.5s ease;
+    /* ウィンドウの幅が変わると滑らかに画像を表示 */
+}
+
+/* より大きい画面では、画像をさらに表示 */
+@media (min-width: 1000px) {
+    .image-container {
+        width: 60%;
+        /* さらに大きな画面では、画像を60%表示 */
+    }
 }
 
 /* レスポンシブ対応でフォントサイズを調整 */
 @media (max-width: 600px) {
     h1 {
-        font-size: 2.5em; /* 小さい画面ではフォントサイズを調整 */
+        font-size: 2.5em;
+        /* 小さい画面ではフォントサイズを調整 */
     }
-}
-.start-btn {
-    padding: 15px 30px;
-    font-size: 1.5em;
-    color: white;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: inline-block; /* ボタンをインラインブロックに */
-    margin: 0 auto; /* ボタンを中央揃え */
-}
-
-.start-btn:hover {
-    background-color: #ff0000;
 }

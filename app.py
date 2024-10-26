@@ -64,7 +64,11 @@ def calculate_carbon_needs(tdee,goal,weight):
 def start():
     return render_template('start.html')
 
-@app.route('/form', methods=['GET', 'POST'])
+@app.route('/menu')
+def menu():
+    return render_template('menu/menu.html')
+
+@app.route('/menu/input', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         weight = float(request.form['weight'])
@@ -99,7 +103,7 @@ def index():
             'fat_needs': session['fat_needs'],
             'carbon_needs': session['carbon_needs']
         })
-    return render_template('index.html')
+    return render_template('menu/input/index.html')
 
 
 

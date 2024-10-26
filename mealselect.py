@@ -109,7 +109,7 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 
     return meal_plans
 
-@app_mealselect.route('/form/recipe', methods=['GET'])
+@app_mealselect.route('/menu/recipe', methods=['GET'])
 def recipe_list():
     # UTF-8エンコーディングで読み込む
     global optimal_plan
@@ -126,10 +126,10 @@ def recipe_list():
         print(session.get('calorie_needs', None))
     
     # メニュー一覧をHTMLで表示
-    return render_template('recipe.html', menus=optimal_plan)
+    return render_template('menu/recipe/recipe.html', menus=optimal_plan)
 
 
-@app_mealselect.route('/form/recipe/breakfast', methods=['GET'])
+@app_mealselect.route('/menu/recipe/breakfast', methods=['GET'])
 def recipe_breakfast():
     global optimal_plan
     if optimal_plan is None:
@@ -143,9 +143,9 @@ def recipe_breakfast():
     breakfast_plan = optimal_plan.get('朝食')
 
     # HTMLに朝食の詳細（料理名と栄養素）を渡す
-    return render_template('breakfast.html', meal_plan=breakfast_plan)
+    return render_template('menu/recipe/detail/breakfast.html', meal_plan=breakfast_plan)
 
-@app_mealselect.route('/form/recipe/lunch', methods=['GET'])
+@app_mealselect.route('/menu/recipe/lunch', methods=['GET'])
 def recipe_lunch():
     global optimal_plan
     if optimal_plan is None:
@@ -159,9 +159,9 @@ def recipe_lunch():
     lunch_plan = optimal_plan.get('昼食')
 
     # HTMLに昼食の詳細（料理名と栄養素）を渡す
-    return render_template('lunch.html', meal_plan=lunch_plan)
+    return render_template('menu/recipe/detail/lunch.html', meal_plan=lunch_plan)
 
-@app_mealselect.route('/form/recipe/dinner', methods=['GET'])
+@app_mealselect.route('/menu/recipe/dinner', methods=['GET'])
 def recipe_dinner():
     global optimal_plan
     if optimal_plan is None:
@@ -175,10 +175,10 @@ def recipe_dinner():
     dinner_plan = optimal_plan.get('夕食')
 
     # HTMLに夕食の詳細（料理名と栄養素）を渡す
-    return render_template('dinner.html', meal_plan=dinner_plan)
+    return render_template('menu/recipe/detail/dinner.html', meal_plan=dinner_plan)
 
 
-@app_mealselect.route('/form/recipe/nutrition', methods=['GET'])
+@app_mealselect.route('/menu/recipe/nutrition', methods=['GET'])
 def recipe_summary():
     # UTF-8エンコーディングで読み込む
     data_path = "./database/caloriecalculate.csv"
@@ -207,4 +207,4 @@ def recipe_summary():
     }
 
     # 合計をHTMLに表示
-    return render_template('nutrition.html', total=total_nutrition)
+    return render_template('menu/recipe/detail/nutrition.html', total=total_nutrition)

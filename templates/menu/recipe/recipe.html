@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>メニュー一覧</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/recipe.css') }}">
 </head>
+
 <body>
     <h1>すべてのメニュー</h1>
     <ul>
@@ -12,7 +14,8 @@
         <li>{{ menu }}</li>
         {% endfor %}
     </ul>
-    <a href="/form/recipe/breakfast" class="btn" id="breakfast-btn">朝食</a>
-    <a herf="/form/recipe/nutrition" class="btn" id="nutrition-btn">栄養素</a>
+    <a href="/menu/recipe/breakfast" class="btn" id="breakfast-btn">朝食</a>
+    <a herf="/menu/recipe/nutrition" class="btn" id="nutrition-btn">栄養素</a>
 </body>
+
 </html>

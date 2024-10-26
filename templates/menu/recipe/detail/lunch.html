@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>昼食の献立</title>
+</head>
+
+<body>
+    <h1>昼食の献立</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>料理名</th>
+                <th>カロリー (kcal)</th>
+                <th>タンパク質 (g)</th>
+                <th>脂質 (g)</th>
+                <th>炭水化物 (g)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, row in meal_plan.iterrows() %}
+            <tr>
+                <td>{{ row['dish'] }}</td>
+                <td>{{ row['kcal'] }}</td>
+                <td>{{ row['protein'] }}</td>
+                <td>{{ row['fat'] }}</td>
+                <td>{{ row['carbo'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <nav>
+        <a href="/menu/recipe/breakfast">朝食へ</a> |
+        <a href="/menu/recipe/dinner">夕食へ</a>
+    </nav>
+</body>
+
+</html>
