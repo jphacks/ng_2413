@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カロリー計算フォーム</title>
+</head>
+<body>
+    <h1>カロリー計算フォーム</h1>
+    <form method="POST">
+        <label for="weight">体重 (kg):</label>
+        <input type="number" name="weight" step="0.1" required><br><br>
+
+        <label for="height">身長 (cm):</label>
+        <input type="number" name="height" step="0.1" required><br><br>
+
+        <label for="age">年齢:</label>
+        <input type="number" name="age" required><br><br>
+
+        <label for="gender">性別:</label>
+        <select name="gender" required>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+        </select><br><br>
+
+        <label for="activity_level">活動レベル:</label>
+        <select name="activity_level" required>
+            <option value="1.2">座りがちな生活（ほとんど運動しない）</option>
+            <option value="1.375">軽い運動（週1～3回）</option>
+            <option value="1.55">中程度の運動（週3～5回）</option>
+            <option value="1.725">活発な運動（週6～7回）</option>
+            <option value="1.9">非常に活発な運動（毎日運動＋フィジカルジョブ）</option>
+        </select><br><br>
+
+        <label for="goal">目標:</label>
+        <select name="goal" required>
+            <option value="muscle_gain">筋肉増加</option>
+            <option value="maintain">維持</option>
+            <option value="fat_loss">減量</option>
+        </select><br><br>
+
+        <button type="submit">計算する</button>
+    </form>
+</body>
+</html>
