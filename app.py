@@ -1,8 +1,25 @@
-from flask import Flask, render_template, request, jsonify
-from mealselect import app_mealselect
-app = Flask(__name__)
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from config import Config
+#from ng_2413.mealselect import app_mealselect
 
-app.register_blueprint(app_mealselect)
+
+
+app = Flask(__name__)
+#app.register_blueprint(app_mealselect)
+
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # ログインしていない場合にリダイレクトするページ
+
+
+# データ ベースモデルのインポート
+from models import User
+
 
 # BMR計算関数
 def calculate_bmr(weight, height, age, gender):
@@ -77,6 +94,71 @@ def index():
             'carbon_needs': carbon_needs
         })
     return render_template('index.html')
+
+
+
+
+# 以下ログイン関連のページ
+
+
+# ログイン時にユーザ情報を取得
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# ユーザ登録ルート
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user = User(username=username, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Account created successfully', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+# ログインルート
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            flash('Logged in successfully', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html')
+
+# ダッシュボードルート（ログイン必須）
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html', username=current_user.username)
+
+# ログアウトルート
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out', 'info')
+    return redirect(url_for('login'))
+
+
+
+
+
+
+
+
+
+
+
 
 
 

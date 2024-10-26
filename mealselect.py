@@ -41,55 +41,67 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
     meal_plans = {}
     selected_mains = []  # 選択したメイン料理を保持
     selected_subs = []   # 選択した副菜を保持
+    selected_staples = []  # 選択した主食を保持
 
     for meal in meal_types:
         if meal == '朝食':
-            # 朝食のためのフィルタリング
-            main = df[(df['side'] == 0) & (df['morn'] == 1)]
-            sub = df[(df['side'] == 1) & (df['morn'] == 1)]
-            staple = df[(df['side'] == 2) & (df['morn'] == 1)]  # 主食のフィルタリング
+            portion_factor = (1/4, 1/4, 1/4)  # 朝食は1/4
+        elif meal == '昼食':
+            portion_factor = (3/8, 3/8, 3/8)  # 昼食は3/8
         else:
-            # 昼食・夕食のためのフィルタリング
-            main = df[(df['side'] == 0) & (df['morn'].isin([1, 0]))]
-            sub = df[(df['side'] == 1) & (df['morn'].isin([1, 0]))]
-            staple = df[(df['side'] == 2) & (df['morn'].isin([1, 0]))]  # 主食のフィルタリング
+            portion_factor = (3/8, 3/8, 3/8)  # 夕食は3/8
+
+        # 目標摂取量を計算
+        meal_target_kcal = target_kcal * portion_factor[0]
+        meal_target_protein = target_protein * portion_factor[1]
+        meal_target_fat = target_fat * portion_factor[2]
+        meal_target_carbo = target_carbo * portion_factor[2]
+
+        # 各食事のフィルタリング
+        main = df[(df['side'] == 0) & (df['morn'] == (1 if meal == '朝食' else 0))]
+        sub = df[(df['side'] == 1) & (df['morn'] == (1 if meal == '朝食' else 0))]
+        staple = df[(df['side'] == 2) & (df['morn'] == (1 if meal == '朝食' else 0))]
 
         best_deviation = float('inf')
         best_plan = None
 
         # 主食を必ず選択する
         if not staple.empty:
-            selected_staple = staple.sample(n=1)  # 主食をランダムに選択
+            # 残っている主食の中から選択
+            remaining_staples = staple[~staple['dish'].isin(selected_staples)]
+            if not remaining_staples.empty:
+                selected_staple = remaining_staples.sample(n=1)  # 主食をランダムに選択
+                selected_staples.append(selected_staple['dish'].values[0])  # 選択した主食を記録
 
-            # 残っているメイン料理の中で最も良いものを選択する
-            remaining_mains = main[~main['dish'].isin(selected_mains)]
-            best_main_score = float('inf')
-            best_main = None
-            
-            if not remaining_mains.empty:
-                for r_main in range(1, 2):  # メインは1品
-                    for combo_main in itertools.combinations(remaining_mains.index, r_main):
-                        selected_main = remaining_mains.loc[list(combo_main)]
-                        
-                        # 副菜は1〜2品（かぶらないように選ぶ）
-                        remaining_subs = sub[~sub['dish'].isin(selected_subs)]  # 選択済みの副菜を除外
-                        for r_sub in range(1, 3):
-                            if not remaining_subs.empty:  # 副菜が空でない場合
-                                for combo_sub in itertools.combinations(remaining_subs.index, r_sub):
-                                    selected_sub = remaining_subs.loc[list(combo_sub)]
-                                    complete_selected = pd.concat([selected_main, selected_staple, selected_sub])
+                # 残っているメイン料理の中で最も良いものを選択する
+                remaining_mains = main[~main['dish'].isin(selected_mains)]
+                best_main_score = float('inf')
+                best_main = None
+                
+                if not remaining_mains.empty:
+                    for r_main in range(1, 2):  # メインは1品
+                        for combo_main in itertools.combinations(remaining_mains.index, r_main):
+                            selected_main = remaining_mains.loc[list(combo_main)]
+                            
+                            # 副菜は1〜2品（かぶらないように選ぶ）
+                            remaining_subs = sub[~sub['dish'].isin(selected_subs)]
+                            for r_sub in range(1, 3):
+                                if not remaining_subs.empty:  # 副菜が空でない場合
+                                    for combo_sub in itertools.combinations(remaining_subs.index, r_sub):
+                                        selected_sub = remaining_subs.loc[list(combo_sub)]
+                                        complete_selected = pd.concat([selected_main, selected_staple, selected_sub])
 
-                                    deviation = calculate_percentage_deviation(complete_selected, target_kcal, target_protein, target_fat, target_carbo)
+                                        deviation = calculate_percentage_deviation(complete_selected, meal_target_kcal, meal_target_protein, meal_target_fat, meal_target_carbo)
 
-                                    if deviation < best_main_score:
-                                        best_main_score = deviation
-                                        best_main = selected_main
-                                        best_sub = selected_sub
+                                        if deviation < best_main_score:
+                                            best_main_score = deviation
+                                            best_main = selected_main
+                                            best_sub = selected_sub
 
-            if best_main is not None:
-                selected_mains.append(best_main['dish'].values[0])  # 選択したメイン料理を記録
-                selected_subs.extend(best_sub['dish'].values)  # 選択した副菜を記録
-                best_plan = pd.concat([best_main, selected_staple, best_sub])
+                if best_main is not None:
+                    selected_mains.append(best_main['dish'].values[0])  # 選択したメイン料理を記録
+                    selected_subs.extend(best_sub['dish'].values)  # 選択した副菜を記録
+                    best_plan = pd.concat([best_main, selected_staple, best_sub])
 
         meal_plans[meal] = best_plan
 
@@ -100,10 +112,15 @@ def recipe_list():
     # UTF-8エンコーディングで読み込む
     data_path = "./database/caloriecalculate.csv"
     df = pd.read_csv(data_path, encoding='utf-8')
+    # ユーザーの1日あたりの目標摂取量
+    target_kcal = 2000
+    target_protein = 100
+    target_fat = 55
+    target_carbo = 270
 
-    # すべてのメニュー（料理名）の一覧を抽出
-    menu_list = df["dish"].unique()
-
+    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    menu_list = optimal_plan
+    
     # メニュー一覧をHTMLで表示
     return render_template('recipe.html', menus=menu_list)
 
