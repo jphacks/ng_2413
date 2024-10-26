@@ -53,7 +53,7 @@ def index():
         bmr = calculate_bmr(weight, height, age, gender)
         # TDEEの計算
         tdee = calculate_tdee(bmr, activity_level)
-        # 筋肉増加に必要なカロリーの計算
+        # 筋肉増加に必要な1日のカロリーの計算
         calorie_needs = calculate_calorie_needs(tdee, goal)
         # 筋肉増加に必要なタンパク質の計算
         protein_needs = calculate_protein_needs(weight)
