@@ -1,5 +1,5 @@
 body {
-    background-image: url('/static/images/筋肉食事.png'); /* 背景画像のパス */ 
+    background-image: url('/static/images/muscle3.png'); /* 背景画像のパス */ 
     background-size: cover; /* 画像をページ全体に広げる */ 
     background-position: center; /* 画像の位置を中央に設定 */ 
     background-repeat: no-repeat; /* 画像の繰り返しを防ぐ */ 
@@ -57,14 +57,19 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     margin-top: 20px;
 }
 
+.btn-gradient-radius.start {
+    font-size: 1.6em;
+    padding: 13px 30px;
+}
+
 .btn-gradient-radius {
-    font-size: 1.1em; 
+    font-size: 0.9em; 
     display: inline-block;
-    padding: 15px 28px;
+    padding: 13px 28px;
     border-radius: 30px;
     border: none;
     text-decoration: none;
