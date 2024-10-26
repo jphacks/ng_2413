@@ -4,38 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>アプリ名 - スタートページ</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 4em;
-            color: #333;
-        }
-        .start-btn {
-            padding: 15px 30px;
-            font-size: 1.5em;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .start-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/start.css') }}">
 </head>
 <body>
     <div class="container">
