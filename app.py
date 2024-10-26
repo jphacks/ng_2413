@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-
+from mealselect import app_mealselect
 app = Flask(__name__)
+
+app.register_blueprint(app_mealselect)
 
 # BMR計算関数
 def calculate_bmr(weight, height, age, gender):

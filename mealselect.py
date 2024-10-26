@@ -1,6 +1,10 @@
 import pandas as pd
 import itertools
 
+from flask import Flask, render_template, request, jsonify, Blueprint
+
+app_mealselect = Blueprint('app_mealselect', __name__)
+
 # UTF-8エンコーディングで読み込む
 data_path = "./database/caloriecalculate.csv"
 df = pd.read_csv(data_path, encoding='utf-8')
@@ -91,50 +95,113 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 
     return meal_plans
 
-# ユーザーの1日あたりの目標摂取量
-# 後でapp.pyにつなぎこむ必要があり
-target_kcal = 2000
-target_protein = 100
-target_fat = 55
-target_carbo = 272
+@app_mealselect.route('/form/recipe', methods=['GET'])
+def recipe_list():
+    # UTF-8エンコーディングで読み込む
+    data_path = "./database/caloriecalculate.csv"
+    df = pd.read_csv(data_path, encoding='utf-8')
 
-# 最適な献立を生成
-optimal_plan = generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo)
+    # すべてのメニュー（料理名）の一覧を抽出
+    menu_list = df["dish"].unique()
 
-# 結果を表示
-total_kcal = 0
-total_protein = 0
-total_fat = 0
-total_carbo = 0
+    # メニュー一覧をHTMLで表示
+    return render_template('recipe.html', menus=menu_list)
 
-for meal, plan in optimal_plan.items():
-    if plan is not None and not plan.empty:
-        print(f"{meal}の最適な献立:")
-        print(plan[["dish", "kcal", "protein", "fat", "carbo"]])
-        total_kcal += plan['kcal'].sum()
-        total_protein += plan['protein'].sum()
-        total_fat += plan['fat'].sum()
-        total_carbo += plan['carbo'].sum()
-        print(f"合計カロリー: {plan['kcal'].sum()} kcal")
-        print(f"合計タンパク質: {plan['protein'].sum()} g")
-        print(f"合計脂質: {plan['fat'].sum()} g")
-        print(f"合計炭水化物: {plan['carbo'].sum()} g")
-    else:
-        print(f"{meal}の献立は見つかりませんでした。")
-    print("----------")
 
-# 1日の合計スコアを計算
-total_score = calculate_percentage_deviation(pd.DataFrame({
-    "kcal": [total_kcal],
-    "protein": [total_protein],
-    "fat": [total_fat],
-    "carbo": [total_carbo]
-}), target_kcal, target_protein, target_fat, target_carbo)
+@app_mealselect.route('/form/recipe/breakfast', methods=['GET'])
+def recipe_breakfast():
+    # UTF-8エンコーディングで読み込む
+    data_path = "./database/caloriecalculate.csv"
+    df = pd.read_csv(data_path, encoding='utf-8')
 
-# 1日の合計を表示
-print("1日の合計:")
-print(f"合計カロリー: {total_kcal} kcal")
-print(f"合計タンパク質: {total_protein} g")
-print(f"合計脂質: {total_fat} g")
-print(f"合計炭水化物: {total_carbo} g")
-print(f"1日の合計スコア: {total_score}")
+    # 数値変換
+    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
+    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
+    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
+    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
+
+    # 欠損値を 0 に置き換え
+    df = df.fillna(0)
+
+    # 朝食の献立を生成
+    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    breakfast_plan = optimal_plan.get('朝食')
+
+    # HTMLに朝食の詳細（料理名と栄養素）を渡す
+    return render_template('breakfast.html', meal_plan=breakfast_plan)
+
+@app_mealselect.route('/form/recipe/lunch', methods=['GET'])
+def recipe_lunch():
+    # UTF-8エンコーディングで読み込む
+    data_path = "./database/caloriecalculate.csv"
+    df = pd.read_csv(data_path, encoding='utf-8')
+
+    # 数値変換
+    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
+    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
+    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
+    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
+
+    # 欠損値を 0 に置き換え
+    df = df.fillna(0)
+
+    # 昼食の献立を生成
+    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    lunch_plan = optimal_plan.get('昼食')
+
+    # HTMLに昼食の詳細（料理名と栄養素）を渡す
+    return render_template('lunch.html', meal_plan=lunch_plan)
+
+@app_mealselect.route('/form/recipe/dinner', methods=['GET'])
+def recipe_dinner():
+    # UTF-8エンコーディングで読み込む
+    data_path = "./database/caloriecalculate.csv"
+    df = pd.read_csv(data_path, encoding='utf-8')
+
+    # 数値変換
+    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
+    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
+    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
+    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
+
+    # 欠損値を 0 に置き換え
+    df = df.fillna(0)
+
+    # 夕食の献立を生成
+    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    dinner_plan = optimal_plan.get('夕食')
+
+    # HTMLに夕食の詳細（料理名と栄養素）を渡す
+    return render_template('dinner.html', meal_plan=dinner_plan)
+
+
+@app_mealselect.route('/form/recipe/summary', methods=['GET'])
+def recipe_summary():
+    # UTF-8エンコーディングで読み込む
+    data_path = "./database/caloriecalculate.csv"
+    df = pd.read_csv(data_path, encoding='utf-8')
+
+    # 数値変換
+    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
+    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
+    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
+    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
+
+    # 欠損値を 0 に置き換え
+    df = df.fillna(0)
+
+    # 各献立の栄養素合計を計算
+    total_kcal = df['kcal'].sum()
+    total_protein = df['protein'].sum()
+    total_fat = df['fat'].sum()
+    total_carbo = df['carbo'].sum()
+
+    total_nutrition = {
+        "total_kcal": total_kcal,
+        "total_protein": total_protein,
+        "total_fat": total_fat,
+        "total_carbo": total_carbo
+    }
+
+    # 合計をHTMLに表示
+    return render_template('nutrition.html', total=total_nutrition)
