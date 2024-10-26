@@ -16,6 +16,11 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # ログインしていない場合にリダイレクトするページ
 
+carbon_needs=None
+fat_needs=None
+protein_needs=None
+calorie_needs=None
+
 
 # データ ベースモデルのインポート
 from models import User
@@ -76,12 +81,16 @@ def index():
         # TDEEの計算
         tdee = calculate_tdee(bmr, activity_level)
         # 筋肉増加に必要な1日のカロリーの計算
+        global calorie_needs
         calorie_needs = calculate_calorie_needs(tdee, goal)
         # 筋肉増加に必要なタンパク質の計算
+        global protein_needs
         protein_needs = calculate_protein_needs(weight)
         # 筋肉増加に必要な脂質の計算
+        global fat_needs
         fat_needs = calculate_fat_needs(tdee,goal)
         # 筋肉増加に必要な炭水化物の計算
+        global carbon_needs
         carbon_needs = calculate_carbon_needs(tdee,goal,weight)
 
         # 結果をJSONで返す

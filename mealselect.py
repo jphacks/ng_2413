@@ -18,6 +18,9 @@ df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
 # 欠損値を 0 に置き換え
 df = df.fillna(0)
 
+# グローバル変数としてoptimal_plan_cacheを定義
+optimal_plan = None
+
 # 栄養バランスを計算する関数
 def calculate_percentage_deviation(selected, target_kcal, target_protein, target_fat, target_carbo):
     total_kcal = selected["kcal"].sum()
@@ -109,34 +112,31 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 
 @app_mealselect.route('/form/recipe', methods=['GET'])
 def recipe_list():
+    from app import protein_needs, fat_needs, carbon_needs, calorie_needs
     # UTF-8エンコーディングで読み込む
-    data_path = "./database/caloriecalculate.csv"
-    df = pd.read_csv(data_path, encoding='utf-8')
+    global optimal_plan
+    if optimal_plan is None:
+        # データの読み込みと最適な献立の生成
+        data_path = "./database/caloriecalculate.csv"
+        df = pd.read_csv(data_path, encoding='utf-8')
 
-    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
-    menu_list = optimal_plan
+        optimal_plan = generate_meal_plan(df, int(calorie_needs), int(protein_needs), int(fat_needs), int(carbon_needs))
     
     # メニュー一覧をHTMLで表示
-    return render_template('recipe.html', menus=menu_list)
+    return render_template('recipe.html', menus=optimal_plan)
 
 
 @app_mealselect.route('/form/recipe/breakfast', methods=['GET'])
 def recipe_breakfast():
-    # UTF-8エンコーディングで読み込む
-    data_path = "./database/caloriecalculate.csv"
-    df = pd.read_csv(data_path, encoding='utf-8')
+    global optimal_plan
+    if optimal_plan is None:
+        # データの読み込みと最適な献立の生成
+        data_path = "./database/caloriecalculate.csv"
+        df = pd.read_csv(data_path, encoding='utf-8')
 
-    # 数値変換
-    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
-    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
-    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
-    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
-
-    # 欠損値を 0 に置き換え
-    df = df.fillna(0)
-
-    # 朝食の献立を生成
-    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        # 朝食の献立を生成
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     breakfast_plan = optimal_plan.get('朝食')
 
     # HTMLに朝食の詳細（料理名と栄養素）を渡す
@@ -144,21 +144,15 @@ def recipe_breakfast():
 
 @app_mealselect.route('/form/recipe/lunch', methods=['GET'])
 def recipe_lunch():
-    # UTF-8エンコーディングで読み込む
-    data_path = "./database/caloriecalculate.csv"
-    df = pd.read_csv(data_path, encoding='utf-8')
+    global optimal_plan
+    if optimal_plan is None:
+        # データの読み込みと最適な献立の生成
+        data_path = "./database/caloriecalculate.csv"
+        df = pd.read_csv(data_path, encoding='utf-8')
 
-    # 数値変換
-    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
-    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
-    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
-    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
-
-    # 欠損値を 0 に置き換え
-    df = df.fillna(0)
-
-    # 昼食の献立を生成
-    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        # 朝食の献立を生成
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     lunch_plan = optimal_plan.get('昼食')
 
     # HTMLに昼食の詳細（料理名と栄養素）を渡す
@@ -166,21 +160,15 @@ def recipe_lunch():
 
 @app_mealselect.route('/form/recipe/dinner', methods=['GET'])
 def recipe_dinner():
-    # UTF-8エンコーディングで読み込む
-    data_path = "./database/caloriecalculate.csv"
-    df = pd.read_csv(data_path, encoding='utf-8')
+    global optimal_plan
+    if optimal_plan is None:
+        # データの読み込みと最適な献立の生成
+        data_path = "./database/caloriecalculate.csv"
+        df = pd.read_csv(data_path, encoding='utf-8')
 
-    # 数値変換
-    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
-    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
-    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
-    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
-
-    # 欠損値を 0 に置き換え
-    df = df.fillna(0)
-
-    # 夕食の献立を生成
-    optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+        # 朝食の献立を生成
+        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     dinner_plan = optimal_plan.get('夕食')
 
     # HTMLに夕食の詳細（料理名と栄養素）を渡す
