@@ -64,6 +64,10 @@ input[type="text"], input[type="password"] {
     margin-top: 20px;
 }
 
+.btn-gradient-radius.regist {
+    padding: 12px 30px;
+}
+
 .btn-gradient-radius {
     font-size: 1.1em; 
     display: inline-block;
@@ -74,6 +78,7 @@ input[type="text"], input[type="password"] {
     color: #FFF;
     background-image: linear-gradient(45deg, #FFC107 0%, #ff8b5f 100%);
     transition: .4s;
+    min-width: 80px;
 }
   
 .btn-gradient-radius:hover {
