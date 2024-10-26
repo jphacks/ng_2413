@@ -92,10 +92,11 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
     return meal_plans
 
 # ユーザーの1日あたりの目標摂取量
-target_kcal = 2500
-target_protein = 120
-target_fat = 70
-target_carbo = 400
+# 後でapp.pyにつなぎこむ必要があり
+target_kcal = 2000
+target_protein = 100
+target_fat = 55
+target_carbo = 272
 
 # 最適な献立を生成
 optimal_plan = generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo)

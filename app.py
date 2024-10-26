@@ -35,7 +35,7 @@ def calculate_fat_needs(tdee,goal):
     return fat
 
 def calculate_carbon_needs(tdee,goal,weight):
-    carbon = (calculate_calorie_needs(tdee,goal)-calculate_protein_needs(weight)*4-calculate_fat_needs(tdee,goal))/4
+    carbon = (calculate_calorie_needs(tdee,goal)-calculate_protein_needs(weight)*4-calculate_fat_needs(tdee,goal)*9)/4
     return carbon
 
 @app.route('/', methods=['GET'])
