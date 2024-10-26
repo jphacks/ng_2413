@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>ログイン</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/style.css') }}">
 </head>
 <body>
-    <h1>ログイン</h1>
-    <form method="POST">
-        <label for="username">ユーザ名:</label>
-        <input type="text" name="username" required><br><br>
+    <div class="container">
+        <h1>ログイン</h1>
+        <form method="POST">
+            <label for="username">ユーザ名:</label>
+            <input type="text" name="username" required><br><br>
 
-        <label for="password">パスワード:</label>
-        <input type="password" name="password" required><br><br>
+            <label for="password">パスワード:</label>
+            <input type="password" name="password" required><br><br>
 
-        <button type="submit">ログイン</button>
-    </form>
+            <button type="submit" class="btn-gradient-radius">ログイン</button>
+        </form>
+        
+        <!-- 新しいアカウント登録ボタンと戻るボタン -->
+        <div class="button-group">
+            <a href="{{ url_for('register') }}" class="btn secondary">アカウント登録</a>
+            <a href="{{ url_for('start') }}" class="btn secondary">最初の画面に戻る</a>
+        </div>
+    </div>
 </body>
 </html>
