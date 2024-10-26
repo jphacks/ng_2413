@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -65,8 +65,15 @@ def index():
         # 筋肉増加に必要な炭水化物の計算
         carbon_needs = calculate_carbon_needs(tdee,goal,weight)
 
-        return render_template('result.html', bmr=bmr, tdee=tdee, calorie_needs=calorie_needs,protein_needs=protein_needs,fat_needs=fat_needs,carbon_needs=carbon_needs)
-
+        # 結果をJSONで返す
+        return jsonify({
+            'bmr': bmr,
+            'tdee': tdee,
+            'calorie_needs': calorie_needs,
+            'protein_needs': protein_needs,
+            'fat_needs': fat_needs,
+            'carbon_needs': carbon_needs
+        })
     return render_template('index.html')
 
 
