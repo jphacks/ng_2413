@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+=======
+from flask import Flask, render_template, redirect, url_for, flash, request
+>>>>>>> Stashed changes
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -13,6 +17,10 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # ログインしていない場合にリダイレクトするページ
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 # データベースモデルのインポート
 from models import User
 
