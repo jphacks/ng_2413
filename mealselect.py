@@ -124,6 +124,7 @@ def recipe_list():
             session.get('carbon_needs', None))
         
         print(session.get('calorie_needs', None))
+        print(optimal_plan)
     
     # メニュー一覧をHTMLで表示
     return render_template('recipe.html', menus=optimal_plan)
@@ -132,14 +133,14 @@ def recipe_list():
 @app_mealselect.route('/form/recipe/breakfast', methods=['GET'])
 def recipe_breakfast():
     global optimal_plan
-    if optimal_plan is None:
-        # データの読み込みと最適な献立の生成
-        data_path = "./database/caloriecalculate.csv"
-        df = pd.read_csv(data_path, encoding='utf-8')
+    # if optimal_plan is None:
+    #     # データの読み込みと最適な献立の生成
+    #     data_path = "./database/caloriecalculate.csv"
+    #     df = pd.read_csv(data_path, encoding='utf-8')
 
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
-        # 朝食の献立を生成
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     # 朝食の献立を生成
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     breakfast_plan = optimal_plan.get('朝食')
 
     # HTMLに朝食の詳細（料理名と栄養素）を渡す
@@ -148,14 +149,14 @@ def recipe_breakfast():
 @app_mealselect.route('/form/recipe/lunch', methods=['GET'])
 def recipe_lunch():
     global optimal_plan
-    if optimal_plan is None:
-        # データの読み込みと最適な献立の生成
-        data_path = "./database/caloriecalculate.csv"
-        df = pd.read_csv(data_path, encoding='utf-8')
+    # if optimal_plan is None:
+    #     # データの読み込みと最適な献立の生成
+    #     data_path = "./database/caloriecalculate.csv"
+    #     df = pd.read_csv(data_path, encoding='utf-8')
 
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
-        # 朝食の献立を生成
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     # 朝食の献立を生成
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     lunch_plan = optimal_plan.get('昼食')
 
     # HTMLに昼食の詳細（料理名と栄養素）を渡す
@@ -164,14 +165,14 @@ def recipe_lunch():
 @app_mealselect.route('/form/recipe/dinner', methods=['GET'])
 def recipe_dinner():
     global optimal_plan
-    if optimal_plan is None:
-        # データの読み込みと最適な献立の生成
-        data_path = "./database/caloriecalculate.csv"
-        df = pd.read_csv(data_path, encoding='utf-8')
+    # if optimal_plan is None:
+    #     # データの読み込みと最適な献立の生成
+    #     data_path = "./database/caloriecalculate.csv"
+    #     df = pd.read_csv(data_path, encoding='utf-8')
 
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
-        # 朝食の献立を生成
-        optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
+    #     # 朝食の献立を生成
+    #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     dinner_plan = optimal_plan.get('夕食')
 
     # HTMLに夕食の詳細（料理名と栄養素）を渡す
@@ -181,23 +182,24 @@ def recipe_dinner():
 @app_mealselect.route('/form/recipe/nutrition', methods=['GET'])
 def recipe_summary():
     # UTF-8エンコーディングで読み込む
-    data_path = "./database/caloriecalculate.csv"
-    df = pd.read_csv(data_path, encoding='utf-8')
+    # data_path = "./database/caloriecalculate.csv"
+    # df = pd.read_csv(data_path, encoding='utf-8')
 
-    # 数値変換
-    df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
-    df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
-    df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
-    df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
+    # # 数値変換
+    # df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
+    # df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
+    # df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
+    # df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
 
-    # 欠損値を 0 に置き換え
-    df = df.fillna(0)
+    # # 欠損値を 0 に置き換え
+    # df = df.fillna(0)
 
     # 各献立の栄養素合計を計算
-    total_kcal = df['kcal'].sum()
-    total_protein = df['protein'].sum()
-    total_fat = df['fat'].sum()
-    total_carbo = df['carbo'].sum()
+    optimal_plan_data = pd.concat([pd.DataFrame(optimal_plan['朝食']), pd.DataFrame(optimal_plan['昼食']), pd.DataFrame(optimal_plan['夕食'])])
+    total_kcal = optimal_plan_data['kcal'].sum()
+    total_protein = optimal_plan_data['protein'].sum()
+    total_fat = optimal_plan_data['fat'].sum()
+    total_carbo = optimal_plan_data['carbo'].sum()
 
     total_nutrition = {
         "total_kcal": total_kcal,
