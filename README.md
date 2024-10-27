@@ -1,6 +1,6 @@
 # サンプル（[Meacle](https://meacle.onrender.com)）
 
-[!['Meascle']('サムネイル画像のURL')]('https://youtu.be/gsMWPTQBKpA')
+[!['Meascle']('https://github.com/user-attachments/assets/547c3679-64de-49b8-9e6d-63a0391496bd')]('https://youtu.be/gsMWPTQBKpA')
 
 ## 製品概要
 筋トレ×Tech
