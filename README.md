@@ -1,6 +1,7 @@
 # サンプル（[Meacle](https://meacle.onrender.com)）
 
 [![IMAGE ALT TEXT HERE]([https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://youtu.be/gsMWPTQBKpA)
+<video src="https://youtu.be/gsMWPTQBKpA" controls="true"></video>
 
 ## 製品概要
 筋トレ×Tech
