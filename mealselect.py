@@ -111,23 +111,56 @@ def generate_meal_plan(df, target_kcal, target_protein, target_fat, target_carbo
 
 @app_mealselect.route('/menu/recipe', methods=['GET'])
 def recipe_list():
-    # UTF-8エンコーディングで読み込む
     global optimal_plan
+
+    # 最適な献立がない場合、CSVデータを読み込み、最適な献立を計算
     if optimal_plan is None:
-        # データの読み込みと最適な献立の生成
         data_path = "./database/caloriecalculate.csv"
         df = pd.read_csv(data_path, encoding='utf-8')
 
-        optimal_plan = generate_meal_plan(df, session.get('calorie_needs', None),
+        optimal_plan = generate_meal_plan(
+            df,
+            session.get('calorie_needs', None),
             session.get('protein_needs', None),
             session.get('fat_needs', None),
-            session.get('carbon_needs', None))
-        
-        print(session.get('calorie_needs', None))
-        print(optimal_plan)
-    
-    # メニュー一覧をHTMLで表示
-    return render_template('menu/recipe/recipe.html', menus=optimal_plan)
+            session.get('carbon_needs', None)
+        )
+
+    # 朝食、昼食、夕食のデータを結合して栄養素を合計
+    optimal_plan_data = pd.concat([
+        pd.DataFrame(optimal_plan['朝食']),
+        pd.DataFrame(optimal_plan['昼食']),
+        pd.DataFrame(optimal_plan['夕食'])
+    ])
+    total_kcal = optimal_plan_data['kcal'].sum()
+    total_protein = optimal_plan_data['protein'].sum()
+    total_fat = optimal_plan_data['fat'].sum()
+    total_carbo = optimal_plan_data['carbo'].sum()
+
+    total_nutrition = {
+        "total_kcal": total_kcal,
+        "total_protein": total_protein,
+        "total_fat": total_fat,
+        "total_carbo": total_carbo
+    }
+
+    # 必要な栄養素を取得
+    needed_nutrition = {
+        "calorie_needs": session.get('calorie_needs', None),
+        "protein_needs": session.get('protein_needs', None),
+        "fat_needs": session.get('fat_needs', None),
+        "carbon_needs": session.get('carbon_needs', None)
+    }
+
+    # テンプレートに渡すデータを辞書にまとめる
+    context = {
+        "menus": optimal_plan,
+        "total_nutrition": total_nutrition,
+        "needed_nutrition": needed_nutrition
+    }
+
+    # メニュー一覧ページを表示
+    return render_template('menu/recipe/recipe.html', **context)
 
 
 @app_mealselect.route('/menu/recipe/breakfast', methods=['GET'])
@@ -177,36 +210,3 @@ def recipe_dinner():
 
     # HTMLに夕食の詳細（料理名と栄養素）を渡す
     return render_template('menu/recipe/detail/dinner.html', meal_plan=dinner_plan)
-
-
-@app_mealselect.route('/menu/recipe/nutrition', methods=['GET'])
-def recipe_summary():
-    # UTF-8エンコーディングで読み込む
-    # data_path = "./database/caloriecalculate.csv"
-    # df = pd.read_csv(data_path, encoding='utf-8')
-
-    # # 数値変換
-    # df["kcal"] = pd.to_numeric(df["kcal"], errors='coerce')
-    # df["protein"] = pd.to_numeric(df["protein"], errors='coerce')
-    # df["fat"] = pd.to_numeric(df["fat"], errors='coerce')
-    # df["carbo"] = pd.to_numeric(df["carbo"], errors='coerce')
-
-    # # 欠損値を 0 に置き換え
-    # df = df.fillna(0)
-
-    # 各献立の栄養素合計を計算
-    optimal_plan_data = pd.concat([pd.DataFrame(optimal_plan['朝食']), pd.DataFrame(optimal_plan['昼食']), pd.DataFrame(optimal_plan['夕食'])])
-    total_kcal = optimal_plan_data['kcal'].sum()
-    total_protein = optimal_plan_data['protein'].sum()
-    total_fat = optimal_plan_data['fat'].sum()
-    total_carbo = optimal_plan_data['carbo'].sum()
-
-    total_nutrition = {
-        "total_kcal": total_kcal,
-        "total_protein": total_protein,
-        "total_fat": total_fat,
-        "total_carbo": total_carbo
-    }
-
-    # 合計をHTMLに表示
-    return render_template('menu/recipe/detail/nutrition.html', total=total_nutrition)

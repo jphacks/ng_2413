@@ -11,65 +11,110 @@
 </head>
 
 <body class="text-light" style="background-color: black;">
-    <h1>一日の献立</h1>
-    <div class="menu-container">
-        <!-- 朝食カード -->
-        <div class="menu-card">
-            <div class="image-container">
-                <img src="{{ url_for('static', filename='images/焼き鮭.jpeg') }}" alt="サンプル画像">
-            </div>
-            <div class="menu-content">
-                <ul>
-                    {% for idx, row in menus.get('朝食').iterrows() %}
-                    <li>{{ row['dish'] }}</li>
-                    {% endfor %}
-                </ul>
-                <div class="menu-footer">
-                    <button class="arrow-btn left-arrow">←</button>
-                    <a href="/menu/recipe/breakfast" class="menu-title">朝食</a>
-                    <button class="arrow-btn right-arrow">→</button>
-                </div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">一日の献立と栄養素</h1>
+
+        <!-- 必要栄養素と総栄養素の表示 -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>栄養素</th>
+                            <th>必要量</th>
+                            <th>合計量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>カロリー</td>
+                            <td>{{ needed_nutrition.calorie_needs }}</td>
+                            <td>{{ total_nutrition.total_kcal }}</td>
+                        </tr>
+                        <tr>
+                            <td>タンパク質</td>
+                            <td>{{ needed_nutrition.protein_needs }}</td>
+                            <td>{{ total_nutrition.total_protein }}</td>
+                        </tr>
+                        <tr>
+                            <td>脂質</td>
+                            <td>{{ needed_nutrition.fat_needs }}</td>
+                            <td>{{ total_nutrition.total_fat }}</td>
+                        </tr>
+                        <tr>
+                            <td>炭水化物</td>
+                            <td>{{ needed_nutrition.carbon_needs }}</td>
+                            <td>{{ total_nutrition.total_carbo }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- 昼食カード -->
-        <div class="menu-card">
-            <div class="image-container">
-
-            </div>
-            <div class="menu-content">
-                <ul>
-                    {% for idx, row in menus.get('昼食').iterrows() %}
-                    <li>{{ row['dish'] }}</li>
-                    {% endfor %}
-                </ul>
-                <div class="menu-footer">
-                    <button class="arrow-btn left-arrow">←</button>
-                    <a href="/menu/recipe/lunch" class="menu-title">昼食</a>
-                    <button class="arrow-btn right-arrow">→</button>
+        <!-- メニューカード -->
+        <div class="menu-container d-flex justify-content-around mt-5">
+            <!-- 朝食カード -->
+            <div class="menu-card text-center">
+                <div class="image-container">
+                    <img src="{{ url_for('static', filename='images/焼き鮭.jpeg') }}" alt="朝食画像" class="img-fluid">
+                </div>
+                <div class="menu-content">
+                    <h3>朝食</h3>
+                    <ul>
+                        {% for idx, row in menus.get('朝食').iterrows() %}
+                        <li>{{ row['dish'] }} ({{ row['kcal'] }} kcal)</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="menu-footer">
+                        <button class="arrow-btn left-arrow">←</button>
+                        <a href="/menu/recipe/breakfast" class="menu-title">朝食詳細</a>
+                        <button class="arrow-btn right-arrow">→</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 夕食カード -->
-        <div class="menu-card">
-            <div class="image-container">
-                <!-- 写真エリア（画像は空） -->
+            <!-- 昼食カード -->
+            <div class="menu-card text-center">
+                <div class="image-container">
+                    <img src="{{ url_for('static', filename='images/lunch.jpeg') }}" alt="昼食画像" class="img-fluid">
+                </div>
+                <div class="menu-content">
+                    <h3>昼食</h3>
+                    <ul>
+                        {% for idx, row in menus.get('昼食').iterrows() %}
+                        <li>{{ row['dish'] }} ({{ row['kcal'] }} kcal)</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="menu-footer">
+                        <button class="arrow-btn left-arrow">←</button>
+                        <a href="/menu/recipe/lunch" class="menu-title">昼食詳細</a>
+                        <button class="arrow-btn right-arrow">→</button>
+                    </div>
+                </div>
             </div>
-            <div class="menu-content">
-                <ul>
-                    {% for idx, row in menus.get('夕食').iterrows() %}
-                    <li>{{ row['dish'] }}</li>
-                    {% endfor %}
-                </ul>
-                <div class="menu-footer">
-                    <button class="arrow-btn left-arrow">←</button>
-                    <a href="/menu/recipe/dinner" class="menu-title">夕食</a>
-                    <button class="arrow-btn right-arrow">→</button>
+
+            <!-- 夕食カード -->
+            <div class="menu-card text-center">
+                <div class="image-container">
+                    <img src="{{ url_for('static', filename='images/dinner.jpeg') }}" alt="夕食画像" class="img-fluid">
+                </div>
+                <div class="menu-content">
+                    <h3>夕食</h3>
+                    <ul>
+                        {% for idx, row in menus.get('夕食').iterrows() %}
+                        <li>{{ row['dish'] }} ({{ row['kcal'] }} kcal)</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="menu-footer">
+                        <button class="arrow-btn left-arrow">←</button>
+                        <a href="/menu/recipe/dinner" class="menu-title">夕食詳細</a>
+                        <button class="arrow-btn right-arrow">→</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
