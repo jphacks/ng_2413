@@ -1,52 +1,63 @@
 /* ベーススタイル */
-html,
 body {
-    height: 100%;
-    /* 背景色が全体に適用されるようにする */
-    margin: 0;
-    padding: 0;
     background-color: #000;
-    /* 背景を黒に設定 */
     color: #fff;
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 2.5rem;
+    font-size: 8rem;
 }
 
 .menu-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     max-width: 100%;
     padding: 0 20px;
     /* 左右に余白を追加して整列 */
+    box-sizing: border-box;
 }
 
 .menu-card {
     background-color: #333;
     width: 32%;
+    /* 各カードが横に並んで、ウィンドウいっぱいに表示 */
     border-radius: 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10px 0;
+    /* 上下のマージンを設定 */
 }
 
+/* 画像コンテナをカードの上半分に固定する */
 .image-container {
-    background-color: #444;
     width: 100%;
-    height: 40px;
+    height: 50%;
+    /* カードの上半分に固定 */
+    overflow: hidden;
 }
 
-
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 画像がコンテナに収まるようにトリミング */
+}
 
 .menu-content {
     padding: 20px;
+    flex-grow: 1;
+    /* 残りの下半分にメニューコンテンツが入る */
 }
 
 .menu-content ul {

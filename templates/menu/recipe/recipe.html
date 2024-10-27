@@ -16,59 +16,60 @@
         <!-- 朝食カード -->
         <div class="menu-card">
             <div class="image-container">
-
-                <div class="menu-content">
-                    <ul>
-                        {% for idx, row in menus.get('朝食').iterrows() %}
-                        <li>{{ row['dish'] }}</li>
-                        {% endfor %}
-                    </ul>
-                    <div class="menu-footer">
-                        <button class="arrow-btn left-arrow">←</button>
-                        <a href="/menu/recipe/breakfast" class="menu-title">朝食</a>
-                        <button class="arrow-btn right-arrow">→</button>
-                    </div>
-                </div>
+                <img src="{{ url_for('static', filename='images/焼き鮭.jpeg') }}" alt="サンプル画像">
             </div>
-
-            <!-- 昼食カード -->
-            <div class="menu-card">
-                <div class="image-container">
-                    <!-- 写真エリア（画像は空） -->
-                </div>
-                <div class="menu-content">
-                    <ul>
-                        {% for idx, row in menus.get('昼食').iterrows() %}
-                        <li>{{ row['dish'] }}</li>
-                        {% endfor %}
-                    </ul>
-                    <div class="menu-footer">
-                        <button class="arrow-btn left-arrow">←</button>
-                        <a href="/menu/recipe/lunch" class="menu-title">昼食</a>
-                        <button class="arrow-btn right-arrow">→</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 夕食カード -->
-            <div class="menu-card">
-                <div class="image-container">
-                    <!-- 写真エリア（画像は空） -->
-                </div>
-                <div class="menu-content">
-                    <ul>
-                        {% for idx, row in menus.get('夕食').iterrows() %}
-                        <li>{{ row['dish'] }}</li>
-                        {% endfor %}
-                    </ul>
-                    <div class="menu-footer">
-                        <button class="arrow-btn left-arrow">←</button>
-                        <a href="/menu/recipe/dinner" class="menu-title">夕食</a>
-                        <button class="arrow-btn right-arrow">→</button>
-                    </div>
+            <div class="menu-content">
+                <ul>
+                    {% for idx, row in menus.get('朝食').iterrows() %}
+                    <li>{{ row['dish'] }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="menu-footer">
+                    <button class="arrow-btn left-arrow">←</button>
+                    <a href="/menu/recipe/breakfast" class="menu-title">朝食</a>
+                    <button class="arrow-btn right-arrow">→</button>
                 </div>
             </div>
         </div>
+
+        <!-- 昼食カード -->
+        <div class="menu-card">
+            <div class="image-container">
+
+            </div>
+            <div class="menu-content">
+                <ul>
+                    {% for idx, row in menus.get('昼食').iterrows() %}
+                    <li>{{ row['dish'] }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="menu-footer">
+                    <button class="arrow-btn left-arrow">←</button>
+                    <a href="/menu/recipe/lunch" class="menu-title">昼食</a>
+                    <button class="arrow-btn right-arrow">→</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 夕食カード -->
+        <div class="menu-card">
+            <div class="image-container">
+                <!-- 写真エリア（画像は空） -->
+            </div>
+            <div class="menu-content">
+                <ul>
+                    {% for idx, row in menus.get('夕食').iterrows() %}
+                    <li>{{ row['dish'] }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="menu-footer">
+                    <button class="arrow-btn left-arrow">←</button>
+                    <a href="/menu/recipe/dinner" class="menu-title">夕食</a>
+                    <button class="arrow-btn right-arrow">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
