@@ -1,5 +1,4 @@
 # サンプル（[Meacle](https://meacle.onrender.com)）
-![スクリーンショット 2024-10-27 131455](https://github.com/user-attachments/assets/96cb6dd2-8a8a-4219-8084-c73d18835250)
 
 [!['Meascle'](https://github.com/user-attachments/assets/96cb6dd2-8a8a-4219-8084-c73d18835250)](https://youtu.be/gsMWPTQBKpA)
 
