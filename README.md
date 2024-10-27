@@ -89,6 +89,7 @@
 - Bootstrap
 - NumPy
 - Flask-SQLAlchemy
+- Render
 
 #### デバイス
 
