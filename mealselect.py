@@ -180,9 +180,14 @@ def recipe_breakfast():
     data_path_recipe = "./database/methods.csv"
     dfr = pd.read_csv(data_path_recipe, encoding='utf-8')
 
+    recipes = dfr[dfr['dish'] == breakfast_plan['dish']].to_dict(orient='records')
+
+    for row in breakfast_plan['dish']:
+        recipes = append(dfr[dfr['dish'] == row].to_dict(orient='records'))
+
     context = {
         "menus": breakfast_plan,
-        "dfr": dfr,
+        "dfr": recipes,
     }
 
     # HTMLに朝食の詳細（料理名と栄養素）を渡す
