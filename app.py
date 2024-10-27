@@ -128,7 +128,7 @@ def register():
         db.session.commit()
         flash('Account created successfully', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return render_template('login/register.html')
 
 # ログインルート
 @app.route('/login', methods=['GET', 'POST'])
@@ -143,7 +143,7 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html')
+    return render_template('login/login.html')
 
 # ダッシュボードルート（ログイン必須）
 @app.route('/dashboard')
