@@ -1,9 +1,6 @@
 # サンプル（[Meacle](https://meacle.onrender.com)）
 
-<div>
-<iframe width="600" height="400" src="https://youtu.be/gsMWPTQBKpA"></iframe>
-</div>
-
+[!['altテキスト']('サムネイル画像のURL')]('https://youtu.be/gsMWPTQBKpA')
 
 ## 製品概要
 筋トレ×Tech
