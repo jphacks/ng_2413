@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for index, row in meal_plan.iterrows() %}
+                {% for index, row in menus.iterrows() %}
                 <tr>
                     <td>{{ row['dish'] }}</td>
                     <td>{{ row['kcal'] }}</td>
@@ -41,7 +41,7 @@
                                     ・主な食材<br>
                                     {{ row['main'] }}<br>
                                     ・調理手順<br>
-                                    
+
                                 </p>
                                 <label class="popup-close" for="popup{{index}}">
                                     <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">

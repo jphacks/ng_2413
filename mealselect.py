@@ -116,6 +116,7 @@ def recipe_list():
     # 最適な献立がない場合、CSVデータを読み込み、最適な献立を計算
     if optimal_plan is None:
         data_path = "./database/caloriecalculate.csv"
+
         df = pd.read_csv(data_path, encoding='utf-8')
 
         optimal_plan = generate_meal_plan(
@@ -176,8 +177,16 @@ def recipe_breakfast():
     #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     breakfast_plan = optimal_plan.get('朝食')
 
+    data_path_recipe = "./database/methods.csv"
+    dfr = pd.read_csv(data_path_recipe, encoding='utf-8')
+
+    context = {
+        "menus": breakfast_plan,
+        "dfr": dfr,
+    }
+
     # HTMLに朝食の詳細（料理名と栄養素）を渡す
-    return render_template('menu/recipe/detail/breakfast.html', meal_plan=breakfast_plan)
+    return render_template('menu/recipe/detail/breakfast.html', **context)
 
 @app_mealselect.route('/menu/recipe/lunch', methods=['GET'])
 def recipe_lunch():
