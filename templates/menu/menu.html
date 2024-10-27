@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            /* 背景を黒に設定 */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .icon-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 200px;
+            /* アイコン間のスペースを広く設定 */
+            justify-items: center;
+            text-align: center;
+        }
+
+        .icon-container a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .icon-box {
+            border-radius: 15px;
+            /* 角を丸くする */
+            padding: 30px;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid;
+            /* 外枠の設定 */
+        }
+
+        .icon-box:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            /* マウスが触れたときに背景色を少し変える */
+            transform: scale(1.1);
+            /* マウスが触れたときに少し拡大する */
+        }
+
+        .icon {
+            font-size: 8rem;
+            /* アイコンのサイズを調整 */
+            margin-bottom: 10px;
+            fill: currentColor;
+        }
+
+        .icon-box:hover .icon {
+            transform: scale(1.1);
+            /* マウスが触れたときにアイコンも少し拡大 */
+        }
+
+        .goal {
+            color: #FF5733;
+            /* 目標設定のアイコン色 */
+            border-color: #FF5733;
+            /* 枠線の色をアイコン色と同じにする */
+        }
+
+        .menu {
+            color: #33FF57;
+            /* 献立作成のアイコン色 */
+            border-color: #33FF57;
+            /* 枠線の色をアイコン色と同じにする */
+        }
+
+        .recipe {
+            color: #3357FF;
+            /* レシピ検索のアイコン色 */
+            border-color: #3357FF;
+            /* 枠線の色をアイコン色と同じにする */
+        }
+
+        .calendar {
+            color: #FF33B5;
+            /* カレンダーのアイコン色 */
+            border-color: #FF33B5;
+            /* 枠線の色をアイコン色と同じにする */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="icon-container">
+        <a href="/menu/input" class="icon-box goal">
+            <i class="bi bi-flag-fill icon"></i>
+            <p>目標設定</p>
+        </a>
+        <a href="/menu/recipe" class="icon-box menu">
+            <i class="bi bi-list-ul icon"></i>
+            <p>献立作成</p>
+        </a>
+        <a href="/menu/recipe-search" class="icon-box recipe">
+            <i class="bi bi-search icon"></i>
+            <p>レシピ検索</p>
+        </a>
+        <a href="/menu/calendar" class="icon-box calendar">
+            <i class="bi bi-calendar-fill icon"></i>
+            <p>カレンダー</p>
+        </a>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

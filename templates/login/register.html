@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザ登録</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>新しいアカウントを作成</h1>
+        <form method="POST">
+            <label for="username">ユーザ名:</label>
+            <input type="text" name="username" required><br><br>
+
+            <label for="password">パスワード:</label>
+            <input type="password" name="password" required><br><br>
+
+            <button type="submit" class="btn-gradient-radius regist">登録</button>
+        </form>
+
+        <!-- 新しいアカウント登録ボタンと戻るボタン -->
+        <div class="button-group">
+            <a href="{{ url_for('login') }}" class="btn secondary">ログイン</a>
+            <a href="{{ url_for('start') }}" class="btn secondary">最初の画面に戻る</a>
+        </div>
+    </div>
+
+</body>
+</html>

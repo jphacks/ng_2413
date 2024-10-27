@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>朝食の献立</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/detail_recipe.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>朝食の献立</h1>
+        <table class="menu-table">
+            <thead>
+                <tr>
+                    <th>料理名</th>
+                    <th>カロリー (kcal)</th>
+                    <th>タンパク質 (g)</th>
+                    <th>脂質 (g)</th>
+                    <th>炭水化物 (g)</th>
+                    <th>レシピ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in menus.iterrows() %}
+                <tr>
+                    <td>{{ row['dish'] }}</td>
+                    <td>{{ row['kcal'] }}</td>
+                    <td>{{ row['protein'] }}</td>
+                    <td>{{ row['fat'] }}</td>
+                    <td>{{ row['carbo'] }}</td>
+                    <td>
+
+                        <!--ポップアップ-->
+                        <input type="checkbox" id="popup{{index}}">
+                        <label class="popup-open" for="popup{{index}}">詳細</label>
+
+                        <div class="popup-overlay" id="popup{{index}}">
+                            <div class="popup-window">
+                                <p class="popup-text">
+                                    ・主な食材<br>
+                                    {{ row['main'] }}<br>
+                                </p>
+                                <label class="popup-close" for="popup{{index}}">
+                                    <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+                                        <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+                                    </svg>
+                                </label>
+                            </div>
+                        </div>
+
+                        
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table> 
+        
+    <nav>
+        <a href="/menu/recipe/lunch">昼食へ</a> |
+        <a href="/menu/recipe">一覧に戻る</a> |
+        <a href="/menu/recipe/dinner">夕食へ</a>
+    </nav>        
+
+    </div>
+
+
+</body>
+
+</html>

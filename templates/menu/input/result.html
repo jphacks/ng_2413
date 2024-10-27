@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計算結果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/index.css') }}">
+    <style>
+        .container {
+            width: 100%;
+            transition: transform 1s ease;
+            transform: translateY(-100%);
+        }
+
+        .slide-in {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container slide-in" id="result-container">
+        <h1>カロリー計算結果</h1>
+        <p>基礎代謝量（BMR）: {{ bmr }} kcal</p>
+        <p>総エネルギー消費量（TDEE）: {{ tdee }} kcal</p>
+        <p>目標に応じた1日のカロリー必要量: {{ calorie_needs }} kcal</p>
+        <p>目標に応じた1日のタンパク質必要量: {{ protein_needs }} g</p>
+        <p>目標に応じた1日の脂質必要量: {{ fat_needs }} g</p>
+        <p>目標に応じた1日の炭水化物必要量: {{ carbon_needs }} g</p>
+
+        <a href="/">再計算する</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.add('slide-in');
+        };
+    </script>
+</body>
+</html>

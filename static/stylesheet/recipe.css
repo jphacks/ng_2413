@@ -1,0 +1,109 @@
+/* ベーススタイル */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 8rem;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    /* 左右に余白を追加して整列 */
+    box-sizing: border-box;
+}
+
+.menu-card {
+    background-color: #333;
+    width: 32%;
+    /* 各カードが横に並んで、ウィンドウいっぱいに表示 */
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+    /* 上下のマージンを設定 */
+}
+
+/* 画像コンテナをカードの上半分に固定する */
+.image-container {
+    width: 100%;
+    height: 50%;
+    /* カードの上半分に固定 */
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 画像がコンテナに収まるようにトリミング */
+}
+
+.menu-content {
+    padding: 20px;
+    flex-grow: 1;
+    /* 残りの下半分にメニューコンテンツが入る */
+}
+
+.menu-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-content li {
+    margin: 5px 0;
+}
+
+.menu-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.menu-title {
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
+    cursor: pointer;
+}
+
+.menu-title:hover {
+    color: #ffcc00;
+}
+
+.arrow-btn {
+    background-color: #555;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.arrow-btn:hover {
+    background-color: #777;
+}
+
+.left-arrow {
+    margin-right: 10px;
+}
+
+.right-arrow {
+    margin-left: 10px;
+}

@@ -1,6 +1,6 @@
 # サンプル（[Meacle](https://meacle.onrender.com)）
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
+[!['Meascle'](https://github.com/user-attachments/assets/96cb6dd2-8a8a-4219-8084-c73d18835250)](https://youtu.be/gsMWPTQBKpA)
 
 ## 製品概要
 筋トレ×Tech
@@ -89,6 +89,7 @@
 - Bootstrap
 - NumPy
 - Flask-SQLAlchemy
+- Render
 
 #### デバイス
 
