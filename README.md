@@ -3,7 +3,7 @@
 [![IMAGE ALT TEXT HERE]([https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://youtu.be/gsMWPTQBKpA)
 
 <div>
-<iframe src="https://youtu.be/gsMWPTQBKpA"></iframe>
+<iframe src="https://youtu.be/gsMWPTQBKpA></iframe>
 </div>
 
 ## 製品概要
