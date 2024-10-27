@@ -4,32 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>朝食の献立</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/detail_recipe.css') }}">
 </head>
 
 <body>
-    <h1>朝食の献立</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>料理名</th>
-                <th>カロリー (kcal)</th>
-                <th>タンパク質 (g)</th>
-                <th>脂質 (g)</th>
-                <th>炭水化物 (g)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for index, row in meal_plan.iterrows() %}
-            <tr>
-                <td>{{ row['dish'] }}</td>
-                <td>{{ row['kcal'] }}</td>
-                <td>{{ row['protein'] }}</td>
-                <td>{{ row['fat'] }}</td>
-                <td>{{ row['carbo'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>朝食の献立</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>料理名</th>
+                    <th>カロリー (kcal)</th>
+                    <th>タンパク質 (g)</th>
+                    <th>脂質 (g)</th>
+                    <th>炭水化物 (g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in meal_plan.iterrows() %}
+                <tr>
+                    <td>{{ row['dish'] }}</td>
+                    <td>{{ row['kcal'] }}</td>
+                    <td>{{ row['protein'] }}</td>
+                    <td>{{ row['fat'] }}</td>
+                    <td>{{ row['carbo'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+
 
     <hr>
     <nav>
