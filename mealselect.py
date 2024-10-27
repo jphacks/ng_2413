@@ -201,8 +201,17 @@ def recipe_lunch():
     #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     lunch_plan = optimal_plan.get('昼食')
 
+    data_path_recipe = "./database/methods.csv"
+    dfr = pd.read_csv(data_path_recipe, encoding='utf-8')
+
+    context = {
+        "menus": lunch_plan,
+        "dfr": dfr,
+    }
+
+
     # HTMLに昼食の詳細（料理名と栄養素）を渡す
-    return render_template('menu/recipe/detail/lunch.html', meal_plan=lunch_plan)
+    return render_template('menu/recipe/detail/lunch.html', **context)
 
 @app_mealselect.route('/menu/recipe/dinner', methods=['GET'])
 def recipe_dinner():
@@ -217,5 +226,13 @@ def recipe_dinner():
     #     optimal_plan = generate_meal_plan(df, 2000, 100, 55, 272)
     dinner_plan = optimal_plan.get('夕食')
 
+    data_path_recipe = "./database/methods.csv"
+    dfr = pd.read_csv(data_path_recipe, encoding='utf-8')
+
+    context = {
+        "menus": dinner_plan,
+        "dfr": dfr,
+    }
+
     # HTMLに夕食の詳細（料理名と栄養素）を渡す
-    return render_template('menu/recipe/detail/dinner.html', meal_plan=dinner_plan)
+    return render_template('menu/recipe/detail/dinner.html', **context)
